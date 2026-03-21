@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "ИМТ Калькулятор",
+    "slug": "bmi-calculator",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "splash": {
+      "backgroundColor": "#4F8EF7"
+    },
+    "ios": {
+      "supportsTablet": false
+    },
+    "plugins": [
+      "expo-font",
+      "expo-secure-store"
+    ]
+  }
+}
