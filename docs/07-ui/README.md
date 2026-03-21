@@ -16,10 +16,10 @@ AppNavigator (NavigationContainer)
 │
 └── [user != null] MainStack (Stack.Navigator)
     ├── MainTabs (headerShown: false)
-    │   ├── Tab: Калькулятор  → CalculatorScreen.js   [иконка: calculator]
-    │   ├── Tab: История      → HistoryScreen.js       [иконка: list]
-    │   ├── Tab: Профиль      → ProfileScreen.js       [иконка: person]
-    │   └── Tab: Настройки    → SettingsScreen.js      [иконка: settings]
+    │   ├── Tab: Калькулятор  → CalculatorScreen.js   
+    │   ├── Tab: История      → HistoryScreen.js       
+    │   ├── Tab: Профиль      → ProfileScreen.js       
+    │   └── Tab: Настройки    → SettingsScreen.js      
     │
     ├── RecordDetails → RecordDetailScreen.js
     │   title: 'Запись ИМТ', header с цветом primary
@@ -35,7 +35,7 @@ AppNavigator (NavigationContainer)
 
 ### Экран 1: Вход (LoginScreen)
 
-> *Скриншот: `docs/images/screen-login.png`*
+![Вход](../images/screen-login.png)
 
 Центрированная карточка на тёмном фоне. Логотип и название «ИМТ Калькулятор». Поля: email, пароль с кнопкой «Показать/Скрыть». Кнопка «Войти». Ссылка на RegisterScreen.
 
@@ -48,7 +48,7 @@ AppNavigator (NavigationContainer)
 
 ### Экран 2: Регистрация (RegisterScreen)
 
-> *Скриншот: `docs/images/screen-register.png`*
+![Регистрация](../images/screen-register.png)
 
 Поля: Имя, Email, Пароль (мин. 6 символов) с кнопкой «Показать», Повтор пароля, Год рождения (необязательно). Кнопка «Создать аккаунт». Ссылка на LoginScreen.
 
@@ -60,7 +60,7 @@ AppNavigator (NavigationContainer)
 
 ### Экран 3: Калькулятор ИМТ (CalculatorScreen)
 
-> *Скриншот: `docs/images/screen-calculator.png`*
+![Калькулятор](../images/screen-calculator.png)
 
 Заголовок «Расчёт ИМТ». Форма: Вес (кг или lb), Рост (см или in). Кнопка «Рассчитать». Таблица 7 категорий ИМТ с цветовыми индикаторами.
 
@@ -74,7 +74,7 @@ AppNavigator (NavigationContainer)
 
 ### Экран 4: История измерений (HistoryScreen)
 
-> *Скриншот: `docs/images/screen-history.png`*
+![История](../images/screen-history.png)
 
 Поле фильтра с кнопками «Применить» / «Сбросить». Заголовок с количеством записей. Карточки: значение ИМТ, цветной бейдж категории, вес/рост в текущих единицах, дата. Последняя запись — бейдж «Последнее». Кнопки «Изменить» (→ RecordDetailScreen) и «Удалить».
 
@@ -89,7 +89,7 @@ AppNavigator (NavigationContainer)
 
 ### Экран 5: Просмотр и редактирование записи (RecordDetailScreen)
 
-> *Скриншот: `docs/images/screen-record-detail.png`*
+![Детали записи](../images/screen-record-detail.png)
 
 Открывается из HistoryScreen с параметром `recordId`. Отображает: значение ИМТ крупно (54pt), цветной бейдж категории, вес/рост, дату `measuredAt`. Поля редактирования веса и роста с сохранением.
 
@@ -115,7 +115,7 @@ AppNavigator (NavigationContainer)
 
 ### Экран 6: Профиль (ProfileScreen)
 
-> *Скриншот: `docs/images/screen-profile.png`*
+![Профиль](../images/screen-profile.png)
 
 Отображает данные из `AuthContext.user` (имя, email, роль) и данные с сервера (`GET /api/users/me`). Кнопка «Редактировать профиль» → EditProfileScreen. Кнопка «Выйти».
 
@@ -127,7 +127,7 @@ AppNavigator (NavigationContainer)
 
 ### Экран 7: Редактирование профиля (EditProfileScreen)
 
-> *Скриншот: `docs/images/screen-edit-profile.png`*
+![Редактирование профиля](../images/screen-edit-profile.png)
 
 Поля: Имя, Год рождения. Кнопка «Сохранить».
 
@@ -139,7 +139,7 @@ AppNavigator (NavigationContainer)
 
 ### Экран 8: Настройки (SettingsScreen)
 
-> *Скриншот: `docs/images/screen-settings.png`*
+![Настройки](../images/screen-settings.png)
 
 Три блока:
 1. **Тема** — Системная / Светлая / Тёмная (активная выделена через `SettingsContext`)

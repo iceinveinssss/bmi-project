@@ -79,7 +79,7 @@ export default function AppNavigator() {
     <NavigationContainer theme={navTheme}>
       {user ? (
         <Stack.Navigator>
-          <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
+          <Stack.Screen name="Назад" component={MainTabs} options={{ headerShown: false }} />
           <Stack.Screen
             name="RecordDetails"
             component={RecordDetailScreen}
