@@ -7,6 +7,7 @@ const SettingsContext = createContext(null);
 const SETTINGS_KEY = 'app_settings_v1';
 const DEFAULT_SETTINGS = {
   units: 'metric', // metric | imperial
+  theme: 'system', // system | light | dark
 };
 
 async function loadSettings() {
@@ -48,6 +49,7 @@ export function SettingsProvider({ children }) {
       settings,
       loading,
       setUnits: (units) => updateSettings({ units }),
+      setTheme: (theme) => updateSettings({ theme }),
       clearOfflineCache,
     }),
     [settings, loading]
@@ -59,4 +61,3 @@ export function SettingsProvider({ children }) {
 export function useSettings() {
   return useContext(SettingsContext);
 }
-

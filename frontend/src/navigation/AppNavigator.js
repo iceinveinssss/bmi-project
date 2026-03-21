@@ -1,11 +1,12 @@
 import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DarkTheme as NavDarkTheme, DefaultTheme as NavDefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../theme/useTheme';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import CalculatorScreen from '../screens/CalculatorScreen';
@@ -19,15 +20,18 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function MainTabs() {
+  const { colors } = useTheme();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        headerStyle: { backgroundColor: '#4F8EF7' },
-        headerTintColor: '#fff',
+        headerStyle: { backgroundColor: colors.primary },
+        headerTintColor: colors.primaryText,
         headerTitleStyle: { fontWeight: 'bold' },
-        tabBarActiveTintColor: '#4F8EF7',
-        tabBarInactiveTintColor: '#aaa',
-        tabBarStyle: { paddingBottom: 6, height: 62 },
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textMuted,
+        tabBarStyle: { paddingBottom: 12, paddingTop: 8, height: 84, backgroundColor: colors.surface, borderTopColor: colors.border },
+        tabBarLabelStyle: { marginBottom: 4, fontWeight: '700' },
         tabBarIcon: ({ color, size }) => {
           const icons = {
             Калькулятор: 'calculator',
@@ -49,17 +53,30 @@ function MainTabs() {
 
 export default function AppNavigator() {
   const { user, loading } = useAuth();
+  const { colors, isDark } = useTheme();
+
+  const navTheme = {
+    ...(isDark ? NavDarkTheme : NavDefaultTheme),
+    colors: {
+      ...(isDark ? NavDarkTheme.colors : NavDefaultTheme.colors),
+      primary: colors.primary,
+      background: colors.background,
+      card: colors.surface,
+      text: colors.text,
+      border: colors.border,
+    },
+  };
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#4F8EF7" />
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navTheme}>
       {user ? (
         <Stack.Navigator>
           <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
@@ -68,8 +85,8 @@ export default function AppNavigator() {
             component={RecordDetailScreen}
             options={{
               title: 'Запись ИМТ',
-              headerStyle: { backgroundColor: '#4F8EF7' },
-              headerTintColor: '#fff',
+              headerStyle: { backgroundColor: colors.primary },
+              headerTintColor: colors.primaryText,
               headerTitleStyle: { fontWeight: 'bold' },
             }}
           />
@@ -78,8 +95,8 @@ export default function AppNavigator() {
             component={EditProfileScreen}
             options={{
               title: 'Профиль',
-              headerStyle: { backgroundColor: '#4F8EF7' },
-              headerTintColor: '#fff',
+              headerStyle: { backgroundColor: colors.primary },
+              headerTintColor: colors.primaryText,
               headerTitleStyle: { fontWeight: 'bold' },
             }}
           />

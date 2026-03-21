@@ -4,9 +4,11 @@ import {
   StyleSheet, Alert, ActivityIndicator, ScrollView, KeyboardAvoidingView, Platform
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../theme/useTheme';
 
 export default function RegisterScreen({ navigation }) {
   const { register } = useAuth();
+  const { colors } = useTheme();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -51,64 +53,92 @@ export default function RegisterScreen({ navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      <ScrollView contentContainerStyle={styles.scroll}>
-        <View style={styles.card}>
-          <Text style={styles.title}>Регистрация</Text>
+    <KeyboardAvoidingView
+      style={[styles.container, { backgroundColor: colors.background }]}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+        <View style={[styles.card, { backgroundColor: colors.surface }]}>
+          <Text style={[styles.title, { color: colors.primary }]}>Регистрация</Text>
 
-          <Text style={styles.label}>Имя *</Text>
-          <TextInput style={styles.input} placeholder="Например: Иван" value={name} onChangeText={setName} autoCorrect={false} />
-
-          <Text style={styles.label}>Email *</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>Имя *</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { borderColor: colors.border, backgroundColor: colors.surface2, color: colors.text }]}
+            placeholder="Например: Иван"
+            placeholderTextColor={colors.placeholder}
+            value={name}
+            onChangeText={setName}
+            autoCorrect={false}
+            selectionColor={colors.primary}
+          />
+
+          <Text style={[styles.label, { color: colors.textSecondary }]}>Email *</Text>
+          <TextInput
+            style={[styles.input, { borderColor: colors.border, backgroundColor: colors.surface2, color: colors.text }]}
             placeholder="example@mail.ru"
+            placeholderTextColor={colors.placeholder}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
             autoCorrect={false}
             autoComplete="email"
+            selectionColor={colors.primary}
           />
 
-          <Text style={styles.label}>Пароль * (мин. 6 символов)</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>Пароль * (мин. 6 символов)</Text>
           <View style={styles.passwordRow}>
             <TextInput
-              style={[styles.input, { flex: 1, marginBottom: 0 }]}
+              style={[styles.input, { flex: 1, marginBottom: 0, borderColor: colors.border, backgroundColor: colors.surface2, color: colors.text }]}
               placeholder="••••••"
+              placeholderTextColor={colors.placeholder}
               value={password}
               onChangeText={setPassword}
               secureTextEntry={!showPassword}
               autoCapitalize="none"
               autoCorrect={false}
               autoComplete="password"
+              selectionColor={colors.primary}
             />
-            <TouchableOpacity style={styles.showBtn} onPress={() => setShowPassword((v) => !v)}>
-              <Text style={styles.showText}>{showPassword ? 'Скрыть' : 'Показать'}</Text>
+            <TouchableOpacity
+              style={[styles.showBtn, { backgroundColor: colors.surface2, borderColor: colors.border }]}
+              onPress={() => setShowPassword((v) => !v)}
+            >
+              <Text style={[styles.showText, { color: colors.primary }]}>{showPassword ? 'Скрыть' : 'Показать'}</Text>
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.label}>Повторите пароль *</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>Повторите пароль *</Text>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { borderColor: colors.border, backgroundColor: colors.surface2, color: colors.text }]}
             placeholder="••••••"
+            placeholderTextColor={colors.placeholder}
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry={!showPassword}
             autoCapitalize="none"
             autoCorrect={false}
+            selectionColor={colors.primary}
           />
 
-          <Text style={styles.label}>Год рождения (необязательно)</Text>
-          <TextInput style={styles.input} placeholder="2000" value={birthYear}
-            onChangeText={setBirthYear} keyboardType="numeric" maxLength={4} />
+          <Text style={[styles.label, { color: colors.textSecondary }]}>Год рождения (необязательно)</Text>
+          <TextInput
+            style={[styles.input, { borderColor: colors.border, backgroundColor: colors.surface2, color: colors.text }]}
+            placeholder="2000"
+            placeholderTextColor={colors.placeholder}
+            value={birthYear}
+            onChangeText={setBirthYear}
+            keyboardType="numeric"
+            maxLength={4}
+            selectionColor={colors.primary}
+          />
 
-          <TouchableOpacity style={styles.button} onPress={handleRegister} disabled={loading}>
-            {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Создать аккаунт</Text>}
+          <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={handleRegister} disabled={loading}>
+            {loading ? <ActivityIndicator color={colors.primaryText} /> : <Text style={[styles.buttonText, { color: colors.primaryText }]}>Создать аккаунт</Text>}
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.link}>Уже есть аккаунт? Войти</Text>
+            <Text style={[styles.link, { color: colors.primary }]}>Уже есть аккаунт? Войти</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -117,16 +147,16 @@ export default function RegisterScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F0F4FF' },
-  scroll: { padding: 20, justifyContent: 'center', flexGrow: 1 },
-  card: { backgroundColor: '#fff', borderRadius: 20, padding: 28, elevation: 4, shadowOpacity: 0.1, shadowRadius: 10 },
-  title: { fontSize: 26, fontWeight: 'bold', textAlign: 'center', color: '#4F8EF7', marginBottom: 20 },
-  label: { fontSize: 13, color: '#666', marginBottom: 4, marginLeft: 2 },
-  input: { borderWidth: 1, borderColor: '#DDE3F0', borderRadius: 12, padding: 13, fontSize: 15, marginBottom: 14, backgroundColor: '#F8FAFF' },
+  container: { flex: 1 },
+  scroll: { padding: 20, justifyContent: 'center', flexGrow: 1, paddingBottom: 40 },
+  card: { borderRadius: 20, padding: 28, elevation: 4, shadowOpacity: 0.1, shadowRadius: 10 },
+  title: { fontSize: 26, fontWeight: 'bold', textAlign: 'center', marginBottom: 20 },
+  label: { fontSize: 13, marginBottom: 4, marginLeft: 2 },
+  input: { borderWidth: 1, borderRadius: 12, padding: 13, fontSize: 15, marginBottom: 14 },
   passwordRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 14 },
-  showBtn: { paddingHorizontal: 12, paddingVertical: 12, borderRadius: 12, backgroundColor: '#F8FAFF', borderWidth: 1, borderColor: '#DDE3F0' },
-  showText: { color: '#4F8EF7', fontWeight: '700' },
-  button: { backgroundColor: '#4F8EF7', borderRadius: 12, padding: 16, alignItems: 'center', marginTop: 6 },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
-  link: { textAlign: 'center', color: '#4F8EF7', marginTop: 18, fontSize: 14 },
+  showBtn: { paddingHorizontal: 12, paddingVertical: 12, borderRadius: 12, borderWidth: 1 },
+  showText: { fontWeight: '800' },
+  button: { borderRadius: 12, padding: 16, alignItems: 'center', marginTop: 6 },
+  buttonText: { fontSize: 16, fontWeight: 'bold' },
+  link: { textAlign: 'center', marginTop: 18, fontSize: 14, fontWeight: '700' },
 });

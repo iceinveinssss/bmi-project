@@ -12,6 +12,7 @@ import {
 import { bmiApi } from '../api/bmi';
 import { useSettings } from '../context/SettingsContext';
 import { fromMetricHeight, fromMetricWeight, toMetricHeight, toMetricWeight, UNITS, round1 } from '../utils/units';
+import { useTheme } from '../theme/useTheme';
 
 const CATEGORY_COLORS = {
   'Норма': '#4CAF50',
@@ -38,6 +39,7 @@ export default function RecordDetailScreen({ route, navigation }) {
   const settingsCtx = useSettings();
   const units = settingsCtx?.settings?.units || 'metric';
   const unitLabels = UNITS[units] || UNITS.metric;
+  const { colors } = useTheme();
 
   const recordId = route?.params?.recordId;
   const [record, setRecord] = useState(null);
@@ -95,54 +97,58 @@ export default function RecordDetailScreen({ route, navigation }) {
 
   if (loading) {
     return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#4F8EF7" />
+      <View style={[styles.center, { backgroundColor: colors.background }]}>
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
   }
 
   if (!record) return null;
 
-  const color = CATEGORY_COLORS[record.category] || '#4F8EF7';
+  const color = CATEGORY_COLORS[record.category] || colors.primary;
   const showWeight = round1(fromMetricWeight(Number(record.weight), units));
   const showHeight = round1(fromMetricHeight(Number(record.height), units));
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <View style={styles.card}>
-        <Text style={styles.title}>Запись ИМТ</Text>
+    <ScrollView style={[styles.container, { backgroundColor: colors.background }]} contentContainerStyle={styles.content}>
+      <View style={[styles.card, { backgroundColor: colors.surface }]}>
+        <Text style={[styles.title, { color: colors.text }]}>Запись ИМТ</Text>
 
         <View style={styles.summary}>
           <Text style={[styles.bmi, { color }]}>{record.bmi}</Text>
           <View style={[styles.badge, { backgroundColor: color + '22', borderColor: color }]}>
             <Text style={[styles.badgeText, { color }]}>{record.category}</Text>
           </View>
-          <Text style={styles.meta}>
+          <Text style={[styles.meta, { color: colors.textSecondary }]}>
             Вес: {showWeight} {unitLabels.weightLabel} · Рост: {showHeight} {unitLabels.heightLabel}
           </Text>
-          <Text style={styles.date}>{formatDate(record.measuredAt)}</Text>
+          <Text style={[styles.date, { color: colors.textMuted }]}>{formatDate(record.measuredAt)}</Text>
         </View>
 
-        <Text style={styles.label}>Вес ({unitLabels.weightLabel})</Text>
+        <Text style={[styles.label, { color: colors.textSecondary }]}>Вес ({unitLabels.weightLabel})</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { borderColor: colors.border, backgroundColor: colors.surface2, color: colors.text }]}
           value={weight}
           onChangeText={setWeight}
           keyboardType="decimal-pad"
           placeholder={units === 'imperial' ? 'Например: 154' : 'Например: 70'}
+          placeholderTextColor={colors.placeholder}
+          selectionColor={colors.primary}
         />
 
-        <Text style={styles.label}>Рост ({unitLabels.heightLabel})</Text>
+        <Text style={[styles.label, { color: colors.textSecondary }]}>Рост ({unitLabels.heightLabel})</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { borderColor: colors.border, backgroundColor: colors.surface2, color: colors.text }]}
           value={height}
           onChangeText={setHeight}
           keyboardType="decimal-pad"
           placeholder={units === 'imperial' ? 'Например: 69' : 'Например: 175'}
+          placeholderTextColor={colors.placeholder}
+          selectionColor={colors.primary}
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleSave} disabled={saving}>
-          {saving ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Сохранить</Text>}
+        <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={handleSave} disabled={saving}>
+          {saving ? <ActivityIndicator color={colors.primaryText} /> : <Text style={[styles.buttonText, { color: colors.primaryText }]}>Сохранить</Text>}
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -150,19 +156,19 @@ export default function RecordDetailScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F0F4FF' },
+  container: { flex: 1 },
   content: { padding: 16, paddingBottom: 40 },
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F0F4FF' },
-  card: { backgroundColor: '#fff', borderRadius: 18, padding: 18, elevation: 2, shadowOpacity: 0.06 },
-  title: { fontSize: 20, fontWeight: 'bold', color: '#2D3A5E', marginBottom: 14, textAlign: 'center' },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  card: { borderRadius: 18, padding: 18, elevation: 2, shadowOpacity: 0.06 },
+  title: { fontSize: 20, fontWeight: 'bold', marginBottom: 14, textAlign: 'center' },
   summary: { alignItems: 'center', marginBottom: 18 },
   bmi: { fontSize: 54, fontWeight: 'bold' },
   badge: { borderWidth: 1, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 4, marginTop: 8 },
   badgeText: { fontSize: 12, fontWeight: '600' },
-  date: { fontSize: 12, color: '#999', marginTop: 10 },
-  meta: { fontSize: 13, color: '#555', marginTop: 10, textAlign: 'center' },
-  label: { fontSize: 14, color: '#666', marginBottom: 6 },
-  input: { borderWidth: 1, borderColor: '#DDE3F0', borderRadius: 12, padding: 13, fontSize: 16, marginBottom: 14, backgroundColor: '#F8FAFF' },
-  button: { backgroundColor: '#4F8EF7', borderRadius: 12, padding: 15, alignItems: 'center', marginTop: 6 },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
+  date: { fontSize: 12, marginTop: 10 },
+  meta: { fontSize: 13, marginTop: 10, textAlign: 'center' },
+  label: { fontSize: 14, marginBottom: 6 },
+  input: { borderWidth: 1, borderRadius: 12, padding: 13, fontSize: 16, marginBottom: 14 },
+  button: { borderRadius: 12, padding: 15, alignItems: 'center', marginTop: 6 },
+  buttonText: { fontSize: 16, fontWeight: 'bold' },
 });

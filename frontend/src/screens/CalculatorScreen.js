@@ -3,9 +3,11 @@ import {
   View, Text, TextInput, TouchableOpacity,
   StyleSheet, Alert, ActivityIndicator, ScrollView
 } from 'react-native';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { bmiApi } from '../api/bmi';
 import { useSettings } from '../context/SettingsContext';
 import { fromMetricHeight, fromMetricWeight, toMetricHeight, toMetricWeight, UNITS, round1 } from '../utils/units';
+import { useTheme } from '../theme/useTheme';
 
 const BMI_COLORS = {
   'Выраженный дефицит массы': '#5B8DEF',
@@ -17,10 +19,27 @@ const BMI_COLORS = {
   'Ожирение III степени': '#F44336',
 };
 
+function getContrastTextColor(hexColor) {
+  if (typeof hexColor !== 'string') return '#fff';
+  const raw = hexColor.startsWith('#') ? hexColor.slice(1) : hexColor;
+  if (![3, 6].includes(raw.length)) return '#fff';
+  const hex = raw.length === 3 ? raw.split('').map((c) => c + c).join('') : raw;
+
+  const r = parseInt(hex.slice(0, 2), 16);
+  const g = parseInt(hex.slice(2, 4), 16);
+  const b = parseInt(hex.slice(4, 6), 16);
+  if ([r, g, b].some((v) => Number.isNaN(v))) return '#fff';
+
+  const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+  return yiq >= 160 ? '#0B1220' : '#fff';
+}
+
 export default function CalculatorScreen() {
   const settingsCtx = useSettings();
   const units = settingsCtx?.settings?.units || 'metric';
   const unitLabels = UNITS[units] || UNITS.metric;
+  const { colors } = useTheme();
+  const tabBarHeight = useBottomTabBarHeight();
 
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
@@ -55,51 +74,62 @@ export default function CalculatorScreen() {
     }
   };
 
-  const bmiColor = result ? (BMI_COLORS[result.category] || '#4F8EF7') : '#4F8EF7';
+  const bmiColor = result ? (BMI_COLORS[result.category] || colors.primary) : colors.primary;
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.title}>Расчёт ИМТ</Text>
+    <ScrollView
+      style={[styles.container, { backgroundColor: colors.background }]}
+      contentContainerStyle={[styles.content, { paddingBottom: tabBarHeight + 24 }]}
+    >
+      <Text style={[styles.title, { color: colors.text }]}>Расчёт ИМТ</Text>
 
-      <View style={styles.card}>
-        <Text style={styles.label}>Вес ({unitLabels.weightLabel})</Text>
+      <View style={[styles.card, { backgroundColor: colors.surface }]}>
+        <Text style={[styles.label, { color: colors.textSecondary }]}>Вес ({unitLabels.weightLabel})</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { borderColor: colors.border, backgroundColor: colors.surface2, color: colors.text }]}
           placeholder={units === 'imperial' ? 'Например: 154' : 'Например: 70'}
+          placeholderTextColor={colors.placeholder}
           value={weight}
           onChangeText={setWeight}
           keyboardType="decimal-pad"
+          selectionColor={colors.primary}
         />
-        <Text style={styles.label}>Рост ({unitLabels.heightLabel})</Text>
+        <Text style={[styles.label, { color: colors.textSecondary }]}>Рост ({unitLabels.heightLabel})</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { borderColor: colors.border, backgroundColor: colors.surface2, color: colors.text }]}
           placeholder={units === 'imperial' ? 'Например: 69' : 'Например: 175'}
+          placeholderTextColor={colors.placeholder}
           value={height}
           onChangeText={setHeight}
           keyboardType="decimal-pad"
+          selectionColor={colors.primary}
         />
-        <TouchableOpacity style={styles.button} onPress={handleCalculate} disabled={loading}>
-          {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Рассчитать</Text>}
+        <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={handleCalculate} disabled={loading}>
+          {loading ? <ActivityIndicator color={colors.primaryText} /> : <Text style={[styles.buttonText, { color: colors.primaryText }]}>Рассчитать</Text>}
         </TouchableOpacity>
       </View>
 
       {result && (
-        <View style={[styles.resultCard, { borderColor: bmiColor }]}>
-          <Text style={styles.resultLabel}>Ваш ИМТ</Text>
+        <View style={[styles.resultCard, { borderColor: bmiColor, backgroundColor: colors.surface }]}>
+          <Text style={[styles.resultLabel, { color: colors.textMuted }]}>Ваш ИМТ</Text>
           <Text style={[styles.bmiValue, { color: bmiColor }]}>{result.bmi}</Text>
           <View style={[styles.categoryBadge, { backgroundColor: bmiColor }]}>
-            <Text style={styles.categoryText}>{result.category}</Text>
+            <Text style={[styles.categoryText, { color: getContrastTextColor(bmiColor) }]}>{result.category}</Text>
           </View>
           <View style={styles.detailRow}>
-            <Text style={styles.detail}>Вес: <Text style={styles.detailBold}>{result.weight} {unitLabels.weightLabel}</Text></Text>
-            <Text style={styles.detail}>Рост: <Text style={styles.detailBold}>{result.height} {unitLabels.heightLabel}</Text></Text>
+            <Text style={[styles.detail, { color: colors.textSecondary }]}>
+              Вес: <Text style={[styles.detailBold, { color: colors.text }]}>{result.weight} {unitLabels.weightLabel}</Text>
+            </Text>
+            <Text style={[styles.detail, { color: colors.textSecondary }]}>
+              Рост: <Text style={[styles.detailBold, { color: colors.text }]}>{result.height} {unitLabels.heightLabel}</Text>
+            </Text>
           </View>
-          <Text style={styles.savedNote}>✅ Результат сохранён в историю</Text>
+          <Text style={[styles.savedNote, { color: colors.success }]}>✅ Результат сохранён в историю</Text>
         </View>
       )}
 
-      <View style={styles.referenceCard}>
-        <Text style={styles.refTitle}>Таблица ИМТ</Text>
+      <View style={[styles.referenceCard, { backgroundColor: colors.surface }]}>
+        <Text style={[styles.refTitle, { color: colors.text }]}>Таблица ИМТ</Text>
         {[
           ['< 16', 'Выраженный дефицит', '#5B8DEF'],
           ['16–18.4', 'Недостаточный вес', '#74AAEF'],
@@ -110,8 +140,8 @@ export default function CalculatorScreen() {
         ].map(([range, label, color]) => (
           <View key={range} style={styles.refRow}>
             <View style={[styles.refDot, { backgroundColor: color }]} />
-            <Text style={styles.refRange}>{range}</Text>
-            <Text style={styles.refLabel}>{label}</Text>
+            <Text style={[styles.refRange, { color: colors.text }]}>{range}</Text>
+            <Text style={[styles.refLabel, { color: colors.textSecondary }]}>{label}</Text>
           </View>
         ))}
       </View>
@@ -120,27 +150,27 @@ export default function CalculatorScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F0F4FF' },
-  content: { padding: 16, paddingBottom: 40 },
-  title: { fontSize: 24, fontWeight: 'bold', color: '#2D3A5E', marginBottom: 16, textAlign: 'center' },
-  card: { backgroundColor: '#fff', borderRadius: 18, padding: 20, marginBottom: 16, elevation: 3, shadowOpacity: 0.08, shadowRadius: 8 },
-  label: { fontSize: 14, color: '#666', marginBottom: 6 },
-  input: { borderWidth: 1, borderColor: '#DDE3F0', borderRadius: 12, padding: 13, fontSize: 16, marginBottom: 16, backgroundColor: '#F8FAFF' },
-  button: { backgroundColor: '#4F8EF7', borderRadius: 12, padding: 15, alignItems: 'center' },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
-  resultCard: { backgroundColor: '#fff', borderRadius: 18, padding: 22, marginBottom: 16, borderWidth: 2, alignItems: 'center', elevation: 3 },
-  resultLabel: { fontSize: 14, color: '#888', marginBottom: 4 },
+  container: { flex: 1 },
+  content: { padding: 16 },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16, textAlign: 'center' },
+  card: { borderRadius: 18, padding: 20, marginBottom: 16, elevation: 3, shadowOpacity: 0.08, shadowRadius: 8 },
+  label: { fontSize: 14, marginBottom: 6 },
+  input: { borderWidth: 1, borderRadius: 12, padding: 13, fontSize: 16, marginBottom: 16 },
+  button: { borderRadius: 12, padding: 15, alignItems: 'center' },
+  buttonText: { fontSize: 16, fontWeight: 'bold' },
+  resultCard: { borderRadius: 18, padding: 22, marginBottom: 16, borderWidth: 2, alignItems: 'center', elevation: 3 },
+  resultLabel: { fontSize: 14, marginBottom: 4 },
   bmiValue: { fontSize: 64, fontWeight: 'bold' },
   categoryBadge: { borderRadius: 20, paddingHorizontal: 18, paddingVertical: 6, marginTop: 8, marginBottom: 14 },
-  categoryText: { color: '#fff', fontWeight: 'bold', fontSize: 14 },
+  categoryText: { fontWeight: 'bold', fontSize: 14 },
   detailRow: { flexDirection: 'row', gap: 20 },
-  detail: { fontSize: 14, color: '#666' },
-  detailBold: { fontWeight: 'bold', color: '#333' },
-  savedNote: { marginTop: 12, fontSize: 13, color: '#4CAF50' },
-  referenceCard: { backgroundColor: '#fff', borderRadius: 18, padding: 18, elevation: 2, shadowOpacity: 0.06 },
-  refTitle: { fontSize: 16, fontWeight: 'bold', color: '#2D3A5E', marginBottom: 12 },
+  detail: { fontSize: 14 },
+  detailBold: { fontWeight: 'bold' },
+  savedNote: { marginTop: 12, fontSize: 13 },
+  referenceCard: { borderRadius: 18, padding: 18, elevation: 2, shadowOpacity: 0.06 },
+  refTitle: { fontSize: 16, fontWeight: 'bold', marginBottom: 12 },
   refRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
   refDot: { width: 12, height: 12, borderRadius: 6, marginRight: 10 },
-  refRange: { width: 80, fontSize: 13, color: '#444', fontWeight: '500' },
-  refLabel: { fontSize: 13, color: '#666' },
+  refRange: { width: 80, fontSize: 13, fontWeight: '700' },
+  refLabel: { fontSize: 13 },
 });

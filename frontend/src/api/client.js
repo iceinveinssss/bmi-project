@@ -17,8 +17,6 @@ const BASE_URL =
   process.env.EXPO_PUBLIC_API_URL ||
   (devServerHost ? `http://${devServerHost}:${API_PORT}` : `http://localhost:${API_PORT}`);
 
-export const API_BASE_URL = BASE_URL;
-
 const apiClient = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
@@ -44,9 +42,9 @@ apiClient.interceptors.response.use(
       return Promise.reject(new Error(message));
     }
 
-    return Promise.reject(
-      new Error(`Ошибка сети: проверь доступ к серверу (${BASE_URL}) и что бэкенд запущен`)
-    );
+    const base = 'Ошибка сети';
+    const hint = __DEV__ ? ` (${BASE_URL})` : '';
+    return Promise.reject(new Error(base + hint));
   }
 );
 

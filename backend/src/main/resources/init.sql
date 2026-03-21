@@ -28,5 +28,8 @@ CREATE INDEX idx_bmi_records_measured_at ON bmi_records(measured_at DESC);
 
 -- Тестовый администратор (пароль: admin123)
 INSERT INTO users (email, password, name, role) VALUES
-('admin@bmi.ru', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'Администратор', 'ADMIN')
-ON CONFLICT DO NOTHING;
+('admin@bmi.ru', '$2a$10$5xEdGJ3LGOZiof8W21IWWuDT6OoYTBBI2AiAqLWgx0ks6y6a4ppLO', 'Администратор', 'ADMIN')
+ON CONFLICT (email) DO UPDATE
+SET password = EXCLUDED.password,
+    name = EXCLUDED.name,
+    role = EXCLUDED.role;
