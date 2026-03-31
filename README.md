@@ -89,8 +89,31 @@ frontend/
 ## Быстрый старт
 
 ### 1. База данных
+
+**Linux:**
+```bash
+sudo systemctl start postgresql
+sudo -u postgres psql -c "CREATE DATABASE bmi_db;"
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD '123';"
+```
+
+**macOS / Windows** (если postgres доступен в PATH):
 ```bash
 psql -U postgres -c "CREATE DATABASE bmi_db;"
+psql -U postgres -c "ALTER USER postgres PASSWORD '123';"
+```
+
+Таблицы создаются автоматически при первом запуске бэкенда (Hibernate, `ddl-auto=update`).
+
+Чтобы добавить тестового администратора — выполните `init.sql` после запуска бэкенда:
+
+**Linux:**
+```bash
+sudo -u postgres psql -d bmi_db -f backend/src/main/resources/init.sql
+```
+
+**macOS / Windows:**
+```bash
 psql -U postgres -d bmi_db -f backend/src/main/resources/init.sql
 ```
 
@@ -105,6 +128,19 @@ UPDATE users SET role='ADMIN' WHERE email='ваш@email';
 ```
 
 ### 2. Бэкенд
+
+Убедитесь, что установлены **Java 17** и **Maven**:
+
+**Java 17:**
+- Linux: `sudo apt install openjdk-17-jdk`
+- macOS: `brew install openjdk@17`
+- Windows: скачать с [adoptium.net](https://adoptium.net)
+
+**Maven**:
+- Linux: `sudo apt install maven`
+- macOS: `brew install maven`
+- Windows: скачать с [maven.apache.org](https://maven.apache.org/download.cgi) и добавить в PATH (или использовать встроенный Maven в IntelliJ IDEA)
+
 ```bash
 cd backend
 mvn spring-boot:run
