@@ -1,201 +1,97 @@
 # ИМТ Калькулятор — Мобильное приложение
 
-**Курсовой проект по дисциплине «Программная инженерия»**  
-Траектория В: Мобильная разработка  
-Архитектура: PCMEF (Presentation–Control–Mediator–Entity–Foundation)
+**Автор:** [Тугусова Мария Александровна]  
+**Группа:** [ПИЖ-б-о-23-2(1)]  
+**Траектория:** Mobile  
+**Дата начала:** [01.04.2026]  
+**Дата сдачи:** [01.06.2026]
+
+Курсовой проект по дисциплине «Программная инженерия». Архитектура: PCMEF.
 
 ---
 
-## Стек технологий
+## Описание проекта
+
+Мобильное приложение для расчёта индекса массы тела (ИМТ) с сохранением истории измерений, ведением профиля и просмотром статистики. Поддерживает метрическую и имперскую системы единиц, работает офлайн с кэшированием.
+
+---
+
+## Траектория выполнения
+
+- [ ] Веб-разработка
+- [ ] Десктоп
+- [x] **Мобильная** (React Native + Expo)
+- [ ] Enterprise
+
+---
+
+## Технологический стек
 
 | Компонент | Технология |
-|---|---|
+|-----------|------------|
 | Мобильный клиент | React Native 0.81.5 + Expo ~54.0.33 |
 | Бэкенд | Java 17 + Spring Boot 3.2.0 |
-| База данных | PostgreSQL (bmi_db, порт 5432) |
+| База данных | PostgreSQL 15+ |
 | ORM | Spring Data JPA + Hibernate |
-| Безопасность | JWT (jjwt 0.11.5) + BCrypt |
-| API документация | OpenAPI 3 / Swagger UI (springdoc 2.3.0) |
-| Тесты | JUnit 5 + MockMvc + H2 in-memory |
-| Покрытие | JaCoCo 0.8.11 (48 %) |
+| Безопасность | JWT + BCrypt |
+| API документация | OpenAPI 3 / Swagger UI |
+| Тесты | JUnit 5 + MockMvc + H2 |
+| Покрытие | JaCoCo 0.8.11 (48%) |
+| Сборка | Maven, Expo CLI |
+| Инструменты | Git, Postman, SonarQube |
 
 ---
 
-## Структура проекта (PCMEF)
+## Требования к окружению
 
-```
-backend/
-└── src/main/java/com/bmi/
-    ├── control/         # Слой C — REST-контроллеры
-    │   ├── AuthController.java
-    │   ├── BmiController.java
-    │   ├── UserController.java
-    │   └── AdminController.java
-    ├── mediator/        # Слой M — интерфейсы (контракты C→M)
-    │   ├── IBmiService.java
-    │   └── IUserService.java
-    ├── mediator/impl/   # Слой M — реализации бизнес-логики
-    │   ├── BmiServiceImpl.java
-    │   └── UserServiceImpl.java
-    ├── entity/          # Слой E — JPA-сущности + бизнес-методы
-    │   ├── User.java
-    │   └── BmiRecord.java        # calculateBmi(), getCategory()
-    ├── foundation/      # Слой F — репозитории
-    │   ├── UserRepository.java
-    │   └── BmiRecordRepository.java
-    ├── dto/             # DTO объекты
-    ├── security/        # JwtUtil, JwtFilter
-    └── config/          # SecurityConfig
-
-frontend/
-└── src/
-    ├── screens/         # Слой P — 8 экранов приложения
-    ├── api/             # HTTP-клиент Axios (auth.js, bmi.js, user.js, client.js)
-    ├── context/         # AuthContext, SettingsContext
-    ├── navigation/      # AppNavigator (AuthStack + MainStack)
-    ├── storage/         # authStorage.js, cacheKeys.js (оффлайн-кэш)
-    ├── theme/           # useTheme.js, colors.js
-    └── utils/           # units.js (конвертация кг↔lb, см↔in)
-```
+| Требование | Версия |
+|------------|--------|
+| Java JDK | 17+ |
+| Node.js | 18+ |
+| PostgreSQL | 15+ |
+| Maven | 3.8+ |
+| Expo CLI | latest |
 
 ---
 
-## REST API — 12 эндпоинтов
+## Установка и запуск
 
-| Метод | URL | Описание |
-|---|---|---|
-| POST | `/api/auth/register` | Регистрация |
-| POST | `/api/auth/login` | Вход |
-| GET | `/api/users/me` | Профиль пользователя |
-| PUT | `/api/users/me` | Обновить профиль |
-| GET | `/api/admin/users` | (ADMIN) Список пользователей |
-| POST | `/api/bmi/calculate` | Рассчитать и сохранить ИМТ |
-| GET | `/api/bmi/history` | История измерений |
-| GET | `/api/bmi/stats` | Статистика (min/max/avg) |
-| GET | `/api/bmi/{id}` | Запись по ID |
-| PUT | `/api/bmi/{id}` | Обновить запись |
-| DELETE | `/api/bmi/{id}` | Удалить запись |
-| GET | `/api/bmi/search` | Поиск с фильтрацией по категории |
+### 1. Клонирование
 
-**Swagger UI:** `http://localhost:8082/swagger-ui.html`  
-**OpenAPI JSON:** `http://localhost:8082/api-docs`
-
-Авторизация в Swagger UI:
-1. Выполните `POST /api/auth/login`, скопируйте поле `token`
-2. Нажмите **Authorize** → вставьте `Bearer <token>`
-
----
-
-## Быстрый старт
-
-### 1. База данных
-
-**Linux:**
 ```bash
-sudo systemctl start postgresql
+git clone https://github.com/username/bmi-calculator.git
+cd bmi-calculator
+
+### 2.База данных
+Linux:
+
+bash
 sudo -u postgres psql -c "CREATE DATABASE bmi_db;"
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD '123';"
-```
+macOS / Windows:
 
-**macOS / Windows** (если postgres доступен в PATH):
-```bash
+bash
 psql -U postgres -c "CREATE DATABASE bmi_db;"
 psql -U postgres -c "ALTER USER postgres PASSWORD '123';"
-```
+Таблицы создаются автоматически при первом запуске бэкенда.
 
-Таблицы создаются автоматически при первом запуске бэкенда (Hibernate, `ddl-auto=update`).
-
-Чтобы добавить тестового администратора — выполните `init.sql` после запуска бэкенда:
-
-**Linux:**
-```bash
-sudo -u postgres psql -d bmi_db -f backend/src/main/resources/init.sql
-```
-
-**macOS / Windows:**
-```bash
-psql -U postgres -d bmi_db -f backend/src/main/resources/init.sql
-```
-
-Учётная запись администратора (создаётся `init.sql`):
-- email: `admin@bmi.ru`
-- пароль: `admin123`
-
-Назначить роль ADMIN существующему пользователю:
-```sql
-UPDATE users SET role='ADMIN' WHERE email='ваш@email';
--- Перелогиньтесь, чтобы получить новый JWT с ролью ADMIN
-```
-
-### 2. Бэкенд
-
-Убедитесь, что установлены **Java 17** и **Maven**:
-
-**Java 17:**
-- Linux: `sudo apt install openjdk-17-jdk`
-- macOS: `brew install openjdk@17`
-- Windows: скачать с [adoptium.net](https://adoptium.net)
-
-**Maven**:
-- Linux: `sudo apt install maven`
-- macOS: `brew install maven`
-- Windows: скачать с [maven.apache.org](https://maven.apache.org/download.cgi) и добавить в PATH (или использовать встроенный Maven в IntelliJ IDEA)
-
-```bash
+###3. Бэкенд
+bash
 cd backend
 mvn spring-boot:run
-# Сервер: http://localhost:8082
-```
-
-### 3. Мобильное приложение
-```bash
+Сервис	URL
+Бэкенд	http://localhost:8082
+Swagger UI	http://localhost:8082/swagger-ui.html
+###4. Мобильное приложение
+bash
 cd frontend
 npm install
 npx expo start
-# Отсканируйте QR-код приложением Expo Go на телефоне
-```
+Отсканируйте QR-код приложением Expo Go (доступно в App Store и Google Play).
 
-### 4. Тесты и покрытие
-```bash
+###5. Тесты
+bash
 cd backend
 mvn test
-# JaCoCo отчёт: target/site/jacoco/index.html
-```
+Отчёт о покрытии JaCoCo: target/site/jacoco/index.html
 
----
-
-## Документация (по этапам)
-
-| Этап | Файл |
-|---|---|
-| Этап 0 — бизнес-анализ | `docs/01-business-model/README.md` |
-| Этап 1 — требования | `docs/02-requirements/README.md` |
-| Этап 2 — архитектура | `docs/03-architecture/README.md` |
-| Этап 3 — база данных | `docs/04-database/README.md` |
-| Этап 4 — детальное проектирование | `docs/05-design/README.md` |
-| Этап 5 — реализация и тесты | `docs/06-implementation/README.md` |
-| Этап 6 — рефакторинг | `docs/06-implementation/REFACTORING.md` |
-| Покрытие тестами (JaCoCo) | `docs/06-implementation/COVERAGE.md` |
-| Этап 7 — UI (траектория В) | `docs/07-ui/README.md` |
-| Этап 8 — финальный пакет | `docs/08-final/README.md` |
-
----
-## Статистика разработки
-
-### Метрики Git
-
-- Всего коммитов: **6**
-- Период: **01.03.2026 — 01.06.2026** (примерно)
-- Средняя частота: **0.5** коммита/неделю
-
-### График активности
-
-![Активность коммитов](docs/images/git-stats-commit-activity.png)
-
-*Рисунок 1 — График активности коммитов по неделям*
-
-### Тепловая карта
-
-![Распределение по времени](docs/images/git-stats-punch-card.png)
-
-*Рисунок 2 — Тепловая карта распределения коммитов по дням и часам*
