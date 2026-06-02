@@ -1,97 +1,146 @@
-# ИМТ Калькулятор — Мобильное приложение
+# 📱 IMT Калькулятор — Мобильное приложение
+
+![Java](https://img.shields.io/badge/Java-17-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-green)
+![React Native](https://img.shields.io/badge/React%20Native-Expo-blue)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
+
+---
+
+## 📌 Общая информация
 
 **Автор:** [Тугусова Мария Александровна]  
-**Группа:** [ПИЖ-б-о-23-2(1)]  
+**Группа:** [ПИЖ-б-о-23-2]  
 **Траектория:** Mobile  
 **Дата начала:** [01.04.2026]  
 **Дата сдачи:** [01.06.2026]
 
-Курсовой проект по дисциплине «Программная инженерия». Архитектура: PCMEF.
+---
+
+## 🧠 Описание проекта
+
+IMT Калькулятор — это мобильное приложение для расчёта индекса массы тела (BMI/ИМТ).  
+Пользователь вводит параметры тела, получает результат расчёта и категорию здоровья, а также может сохранять историю измерений.
+
+Система состоит из мобильного клиента и серверной части с REST API и базой данных PostgreSQL.
 
 ---
 
-## Описание проекта
+## 📱 Траектория выполнения
 
-Мобильное приложение для расчёта индекса массы тела (ИМТ) с сохранением истории измерений, ведением профиля и просмотром статистики. Поддерживает метрическую и имперскую системы единиц, работает офлайн с кэшированием.
-
----
-
-## Траектория выполнения
-
-- [ ] Веб-разработка
-- [ ] Десктоп
-- [x] **Мобильная** (React Native + Expo)
-- [ ] Enterprise
+- [ ] Веб-разработка (React + Spring Boot)  
+- [ ] Десктоп  
+- [x] Мобильная  
+- [ ] Enterprise  
 
 ---
 
-## Технологический стек
+## 🧰 Технологический стек
 
-| Компонент | Технология |
-|-----------|------------|
-| Мобильный клиент | React Native 0.81.5 + Expo ~54.0.33 |
-| Бэкенд | Java 17 + Spring Boot 3.2.0 |
-| База данных | PostgreSQL 15+ |
-| ORM | Spring Data JPA + Hibernate |
-| Безопасность | JWT + BCrypt |
-| API документация | OpenAPI 3 / Swagger UI |
-| Тесты | JUnit 5 + MockMvc + H2 |
-| Покрытие | JaCoCo 0.8.11 (48%) |
-| Сборка | Maven, Expo CLI |
-| Инструменты | Git, Postman, SonarQube |
+### 📲 Мобильный клиент
+- React Native 0.81.5
+- Expo ~54.0.33
 
----
+### 🖥 Бэкенд
+- Java 17
+- Spring Boot 3.2.0
+- Spring Security (JWT + BCrypt)
 
-## Требования к окружению
+### 🗄 База данных
+- PostgreSQL (bmi_db)
 
-| Требование | Версия |
-|------------|--------|
-| Java JDK | 17+ |
-| Node.js | 18+ |
-| PostgreSQL | 15+ |
-| Maven | 3.8+ |
-| Expo CLI | latest |
+### ⚙️ Дополнительно
+- JPA / Hibernate
+- REST API + OpenAPI (Swagger)
+- JUnit 5 + MockMvc + H2
+- JaCoCo (~48% coverage)
 
 ---
 
-## Установка и запуск
+## 🏗 Архитектура (PCMEF)
 
-### 1. Клонирование
+- **P (Presentation)** — React Native экраны  
+- **C (Control)** — REST контроллеры  
+- **M (Mediator)** — бизнес-логика  
+- **E (Entity)** — доменные сущности  
+- **F (Foundation)** — репозитории  
+
+---
+
+## 📦 Структура проекта
+
+
+backend/
+├── control/
+├── mediator/
+├── mediator/impl/
+├── entity/
+├── foundation/
+├── dto/
+├── security/
+└── config/
+
+frontend/
+├── screens/
+├── api/
+├── context/
+├── navigation/
+├── storage/
+├── theme/
+└── utils/
+
+
+---
+
+## 🔌 REST API
+
+| Метод | Endpoint | Описание |
+|------|----------|----------|
+| POST | `/api/auth/register` | Регистрация |
+| POST | `/api/auth/login` | Вход |
+| GET | `/api/users/me` | Профиль |
+| PUT | `/api/users/me` | Обновить профиль |
+| POST | `/api/bmi/calculate` | Расчёт ИМТ |
+| GET | `/api/bmi/history` | История |
+| GET | `/api/bmi/stats` | Статистика |
+| DELETE | `/api/bmi/{id}` | Удаление |
+
+📘 Swagger UI: http://localhost:8082/swagger-ui.html  
+📘 OpenAPI: http://localhost:8082/api-docs  
+
+---
+
+## 🚀 Быстрый старт
+
+### 📌 База данных
 
 ```bash
-git clone https://github.com/username/bmi-calculator.git
-cd bmi-calculator
-
-### 2.База данных
-Linux:
-
-bash
-sudo -u postgres psql -c "CREATE DATABASE bmi_db;"
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD '123';"
-macOS / Windows:
-
-bash
 psql -U postgres -c "CREATE DATABASE bmi_db;"
 psql -U postgres -c "ALTER USER postgres PASSWORD '123';"
-Таблицы создаются автоматически при первом запуске бэкенда.
-
-###3. Бэкенд
-bash
+🖥 Бэкенд
 cd backend
 mvn spring-boot:run
-Сервис	URL
-Бэкенд	http://localhost:8082
-Swagger UI	http://localhost:8082/swagger-ui.html
-###4. Мобильное приложение
-bash
+
+📍 http://localhost:8082
+
+📱 Мобильное приложение
 cd frontend
 npm install
 npx expo start
-Отсканируйте QR-код приложением Expo Go (доступно в App Store и Google Play).
-
-###5. Тесты
-bash
+🧪 Тесты
 cd backend
 mvn test
-Отчёт о покрытии JaCoCo: target/site/jacoco/index.html
 
+📊 JaCoCo: target/site/jacoco/index.html
+
+📊 Статистика разработки
+Метрика	Значение
+Коммиты	[заполнить]
+Период разработки	[даты]
+Покрытие тестами	~48%
+👤 Автор
+ФИО: [ФИО]
+Группа: [номер]
+GitHub: [username]
+Email: [email]
