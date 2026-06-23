@@ -113,61 +113,47 @@ mvn test
 Вся проектная документация структурирована по папкам в соответствии с этапами разработки. Файлы добавляются по мере выполнения этапов.
 
 ### 📋 00-project-charter — Паспорт проекта
-- [Паспорт проекта](docs/00-project-charter/)
-- [IDEF0-диаграмма](docs/00-project-charter/)
-- [BUC-диаграмма](docs/00-project-charter/)
-- [SWOT-анализ](docs/00-project-charter/)
-- [ROI-расчет](docs/00-project-charter/)
+- [Паспорт проекта](docs/01-business-model)
+- [IDEF0-диаграмма](docs/01-business-model)
+- [BUC-диаграмма](docs/01-business-model)
+- [SWOT-анализ](docs/01-business-model)
+- [ROI-расчет](docs/01-business-model)
 
 ### 📝 01-requirements — Требования
-- [Use Case Diagram](docs/01-requirements/)
-- [Domain Model](docs/01-requirements/)
-- [Трассировка требований](docs/01-requirements/)
+- [Use Case Diagram](docs/02-requirements)
+- [Domain Model](docs/02-requirements)
+- [Трассировка требований](docs/02-requirements)
 
 ### 🏗 02-architecture — Архитектура
-- [PCMEF-архитектура](docs/02-architecture/)
-- [ADR (Architecture Decision Records)](docs/02-architecture/)
-- [Интерфейсы системы](docs/02-architecture/)
+- [PCMEF-архитектура](docs/03-architecture)
+- [ADR (Architecture Decision Records)](docs/03-architecture)
+- [Интерфейсы системы](docs/03-architecture)
 
 ### 🗄 03-database — База данных
-- [ER-диаграмма](docs/03-database/)
-- [DDL-скрипты](docs/03-database/)
-- [ORM-сущности](docs/03-database/)
+- [ER-диаграмма](docs/04-database)
+- [DDL-скрипты](docs/04-database)
+- [ORM-сущности](docs/04-database)
 
 ### 🔍 04-detailed-design — Детальное проектирование
-- [Sequence-диаграммы](docs/04-detailed-design/)
-- [Спецификация методов](docs/04-detailed-design/)
+- [Sequence-диаграммы](docs/05-design)
+- [Спецификация методов](docs/05-design)
 
 ### 💻 05-implementation — Реализация
-- [Реализация слоев приложения](docs/05-implementation/)
+- [Реализация слоев приложения](docs/06-implementation)
 
-### 🧪 06-testing — Тестирование
-- [Тест-план](docs/06-testing/)
-- [Отчет JaCoCo](docs/06-testing/)
-- [Postman-коллекция](docs/06-testing/)
+### 🎨 06-ui — Пользовательский интерфейс
+- [Скриншоты интерфейсов](docs/07-ui)
 
-### 🔧 07-refactoring — Рефакторинг
-- [«Запахи» кода и их устранение](docs/07-refactoring/)
-- [Data Mapper](docs/07-refactoring/)
-- [Identity Map](docs/07-refactoring/)
+### 🚀 7-deployment — Развертывание
+- [Docker-конфигурация](docs/08-final)
+- [CI/CD-пайплайн](docs/08-final)
+- [Администрирование системы](docs/08-final)
 
-### 🎨 08-ui — Пользовательский интерфейс
-- [Скриншоты интерфейсов](docs/08-ui/)
+### 📖 8-user-guide — Руководство пользователя
+- [Руководство пользователя](docs/08-final)
 
-### 📡 09-api — API
-- [OpenAPI-спецификация](docs/09-api/)
-- [Swagger UI](docs/09-api/)
-
-### 🚀 10-deployment — Развертывание
-- [Docker-конфигурация](docs/10-deployment/)
-- [CI/CD-пайплайн](docs/10-deployment/)
-- [Администрирование системы](docs/10-deployment/)
-
-### 📖 11-user-guide — Руководство пользователя
-- [Руководство пользователя](docs/11-user-guide/)
-
-### 📄 12-final-report — Итоговые материалы
-- [Пояснительная записка](docs/12-final-report/)
+### 📄 9-final-report — Итоговые материалы
+- [Пояснительная записка](docs/Пояснительная_Записка.docx)
 
 ---
 
