@@ -110,64 +110,64 @@ mvn test
 
 ## 📦 Структура проекта
 
-Вся проектная документация структурирована по папкам в соответствии с этапами разработки. Ниже представлено содержание каждого раздела:
+Вся проектная документация структурирована по папкам в соответствии с этапами разработки. Файлы добавляются по мере выполнения этапов.
 
 ### 📋 00-project-charter — Паспорт проекта
-- **[Паспорт проекта](docs/00-project-charter/Паспорт_проекта.md)**
-- **[IDEF0-диаграмма](docs/00-project-charter/IDEF0.md)**
-- **[BUC-диаграмма](docs/00-project-charter/BUC.md)**
-- **[SWOT-анализ](docs/00-project-charter/SWOT.md)**
-- **[ROI-расчет](docs/00-project-charter/ROI.md)**
+- [Паспорт проекта](docs/00-project-charter/)
+- [IDEF0-диаграмма](docs/00-project-charter/)
+- [BUC-диаграмма](docs/00-project-charter/)
+- [SWOT-анализ](docs/00-project-charter/)
+- [ROI-расчет](docs/00-project-charter/)
 
 ### 📝 01-requirements — Требования
-- **[Use Case Diagram](docs/01-requirements/Use_Case_Diagram.md)**
-- **[Domain Model](docs/01-requirements/Domain_Model.md)**
-- **[Трассировка требований](docs/01-requirements/Трассировка_требований.md)**
+- [Use Case Diagram](docs/01-requirements/)
+- [Domain Model](docs/01-requirements/)
+- [Трассировка требований](docs/01-requirements/)
 
 ### 🏗 02-architecture — Архитектура
-- **[PCMEF-архитектура](docs/02-architecture/PCMEF.md)**
-- **[ADR (Architecture Decision Records)](docs/02-architecture/ADR.md)**
-- **[Интерфейсы системы](docs/02-architecture/Интерфейсы.md)**
+- [PCMEF-архитектура](docs/02-architecture/)
+- [ADR (Architecture Decision Records)](docs/02-architecture/)
+- [Интерфейсы системы](docs/02-architecture/)
 
 ### 🗄 03-database — База данных
-- **[ER-диаграмма](docs/03-database/ER-диаграмма.md)**
-- **[DDL-скрипты](docs/03-database/DDL.md)**
-- **[ORM-сущности](docs/03-database/ORM.md)**
+- [ER-диаграмма](docs/03-database/)
+- [DDL-скрипты](docs/03-database/)
+- [ORM-сущности](docs/03-database/)
 
 ### 🔍 04-detailed-design — Детальное проектирование
-- **[Sequence-диаграммы](docs/04-detailed-design/Sequence_диаграммы.md)**
-- **[Спецификация методов](docs/04-detailed-design/Спецификация_методов.md)**
+- [Sequence-диаграммы](docs/04-detailed-design/)
+- [Спецификация методов](docs/04-detailed-design/)
 
 ### 💻 05-implementation — Реализация
-- **[Реализация слоев приложения](docs/05-implementation/Реализация_слоев.md)**
+- [Реализация слоев приложения](docs/05-implementation/)
 
 ### 🧪 06-testing — Тестирование
-- **[Тест-план](docs/06-testing/Тест-план.md)**
-- **[Отчет JaCoCo](docs/06-testing/JaCoCo.md)**
-- **[Postman-коллекция](docs/06-testing/Postman.md)**
+- [Тест-план](docs/06-testing/)
+- [Отчет JaCoCo](docs/06-testing/)
+- [Postman-коллекция](docs/06-testing/)
 
 ### 🔧 07-refactoring — Рефакторинг
-- **[«Запахи» кода и их устранение](docs/07-refactoring/Запахи_кода.md)**
-- **[Data Mapper](docs/07-refactoring/Data_Mapper.md)**
-- **[Identity Map](docs/07-refactoring/Identity_Map.md)**
+- [«Запахи» кода и их устранение](docs/07-refactoring/)
+- [Data Mapper](docs/07-refactoring/)
+- [Identity Map](docs/07-refactoring/)
 
 ### 🎨 08-ui — Пользовательский интерфейс
-- **[Скриншоты интерфейсов](docs/08-ui/Скриншоты.md)**
+- [Скриншоты интерфейсов](docs/08-ui/)
 
 ### 📡 09-api — API
-- **[OpenAPI-спецификация](docs/09-api/OpenAPI.md)**
-- **[Swagger UI](docs/09-api/Swagger.md)**
+- [OpenAPI-спецификация](docs/09-api/)
+- [Swagger UI](docs/09-api/)
 
 ### 🚀 10-deployment — Развертывание
-- **[Docker-конфигурация](docs/10-deployment/Docker.md)**
-- **[CI/CD-пайплайн](docs/10-deployment/CI_CD.md)**
-- **[Администрирование системы](docs/10-deployment/Администрирование.md)**
+- [Docker-конфигурация](docs/10-deployment/)
+- [CI/CD-пайплайн](docs/10-deployment/)
+- [Администрирование системы](docs/10-deployment/)
 
 ### 📖 11-user-guide — Руководство пользователя
-- **[Руководство пользователя](docs/11-user-guide/Руководство_пользователя.md)**
+- [Руководство пользователя](docs/11-user-guide/)
 
 ### 📄 12-final-report — Итоговые материалы
-- **[Пояснительная записка](docs/12-final-report/Пояснительная_записка.md)**
+- [Пояснительная записка](docs/12-final-report/)
 
 ---
 
