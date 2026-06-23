@@ -170,7 +170,7 @@ mvn test
 
 ### График активности
 
-![Активность коммитов](docs/images/git-stats-commit-activity.png)
+![Активность коммитов](docs/images/punchcard_iceinveinssss-bmi-project.png)
 
 *Рисунок 1 — Активность коммитов в течение семестра*
 
