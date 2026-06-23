@@ -110,34 +110,64 @@ mvn test
 
 ## 📦 Структура проекта
 
-Вся документация находится в папке docs/:
+Вся проектная документация структурирована по папкам в соответствии с этапами разработки. Ниже представлено содержание каждого раздела:
 
-00-project-charter/
-| Паспорт проекта, IDEF0, BUC, SWOT, ROI   |
-| 01-requirements/  
-| Use Case, Domain Model, трассировка      |
-| 02-architecture/  
-| PCMEF, ADR, интерфейсы                   |
-| 03-database/  
-| ER-диаграмма, DDL, ORM                   |
-| 04-detailed-design/
-| Sequence диаграммы, спецификация методов |
-| 05-implementation/  
-| Реализация слоёв                         |
-| 06-testing/  
-| Тест-планы, JaCoCo, Postman              |
-| 07-refactoring/  
-| «Запахи кода», Data Mapper, Identity Map |
-| 08-ui/  
-| Скриншоты интерфейсов                    |
-| 09-api/  
-| OpenAPI, Swagger                         |
-| 10-deployment/  
-| Docker, CI/CD, администрирование         |
-| 11-user-guide/  
-| Руководство пользователя                 |
-| 12-final-report/  
-| Пояснительная записка, презентация       |
+### 📋 00-project-charter — Паспорт проекта
+- **[Паспорт проекта](docs/00-project-charter/Паспорт_проекта.md)**
+- **[IDEF0-диаграмма](docs/00-project-charter/IDEF0.md)**
+- **[BUC-диаграмма](docs/00-project-charter/BUC.md)**
+- **[SWOT-анализ](docs/00-project-charter/SWOT.md)**
+- **[ROI-расчет](docs/00-project-charter/ROI.md)**
+
+### 📝 01-requirements — Требования
+- **[Use Case Diagram](docs/01-requirements/Use_Case_Diagram.md)**
+- **[Domain Model](docs/01-requirements/Domain_Model.md)**
+- **[Трассировка требований](docs/01-requirements/Трассировка_требований.md)**
+
+### 🏗 02-architecture — Архитектура
+- **[PCMEF-архитектура](docs/02-architecture/PCMEF.md)**
+- **[ADR (Architecture Decision Records)](docs/02-architecture/ADR.md)**
+- **[Интерфейсы системы](docs/02-architecture/Интерфейсы.md)**
+
+### 🗄 03-database — База данных
+- **[ER-диаграмма](docs/03-database/ER-диаграмма.md)**
+- **[DDL-скрипты](docs/03-database/DDL.md)**
+- **[ORM-сущности](docs/03-database/ORM.md)**
+
+### 🔍 04-detailed-design — Детальное проектирование
+- **[Sequence-диаграммы](docs/04-detailed-design/Sequence_диаграммы.md)**
+- **[Спецификация методов](docs/04-detailed-design/Спецификация_методов.md)**
+
+### 💻 05-implementation — Реализация
+- **[Реализация слоев приложения](docs/05-implementation/Реализация_слоев.md)**
+
+### 🧪 06-testing — Тестирование
+- **[Тест-план](docs/06-testing/Тест-план.md)**
+- **[Отчет JaCoCo](docs/06-testing/JaCoCo.md)**
+- **[Postman-коллекция](docs/06-testing/Postman.md)**
+
+### 🔧 07-refactoring — Рефакторинг
+- **[«Запахи» кода и их устранение](docs/07-refactoring/Запахи_кода.md)**
+- **[Data Mapper](docs/07-refactoring/Data_Mapper.md)**
+- **[Identity Map](docs/07-refactoring/Identity_Map.md)**
+
+### 🎨 08-ui — Пользовательский интерфейс
+- **[Скриншоты интерфейсов](docs/08-ui/Скриншоты.md)**
+
+### 📡 09-api — API
+- **[OpenAPI-спецификация](docs/09-api/OpenAPI.md)**
+- **[Swagger UI](docs/09-api/Swagger.md)**
+
+### 🚀 10-deployment — Развертывание
+- **[Docker-конфигурация](docs/10-deployment/Docker.md)**
+- **[CI/CD-пайплайн](docs/10-deployment/CI_CD.md)**
+- **[Администрирование системы](docs/10-deployment/Администрирование.md)**
+
+### 📖 11-user-guide — Руководство пользователя
+- **[Руководство пользователя](docs/11-user-guide/Руководство_пользователя.md)**
+
+### 📄 12-final-report — Итоговые материалы
+- **[Пояснительная записка](docs/12-final-report/Пояснительная_записка.md)**
 
 ---
 
