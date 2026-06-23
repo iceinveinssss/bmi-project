@@ -170,13 +170,13 @@ mvn test
 
 ### График активности
 
-![Активность коммитов](docs/images/punchcard_iceinveinssss-bmi-project.png)
+![Активность коммитов](docs/images/Commits.png)
 
 *Рисунок 1 — Активность коммитов в течение семестра*
 
 ### Тепловая карта
 
-![Распределение по времени](docs/images/git-stats-punch-card.png)
+![Распределение по времени](docs/images/punchcard_iceinveinssss-bmi-project.png)
 
 *Рисунок 2 — Распределение коммитов по дням и часам*
 
