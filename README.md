@@ -215,7 +215,7 @@ MIT License
 ---
 ## Полезные ссылки
 
-- [Репозиторий проекта](https://github.com/username/bmi-calculator)
+- [Репозиторий проекта](https://github.com/iceinveinssss/bmi-project/tree/main)
 - [Документация (docs/)](docs/)
 - [Swagger UI](http://localhost:8082/swagger-ui.html)
 - [Postman коллекция](docs/09-api/postman-collection.json)
