@@ -55,40 +55,41 @@ IMT Калькулятор — это мобильное приложение д
 
 ## 🏗 Требования к окружению
 
-Требование	Версия
-Java JDK	17+
-Node.js	18+
-PostgreSQL	15+
-Maven	3.8+
-Docker (опционально)	20+
+| Компонент            | Версия |
+|----------------------|--------|
+| Java JDK             | 17+    |
+| Node.js              | 18+    |
+| PostgreSQL           | 15+    |
+| Maven                | 3.8+   |
+| Android Studio       | 2024+  |
+| Docker (опционально) | 20+    |
 
 ---
 
 ## 🚀 Быстрый старт
-📌 База данных
+### 1. База данных
 
-bash
+```bash
 psql -U postgres -c "CREATE DATABASE bmi_db;"
 psql -U postgres -c "ALTER USER postgres PASSWORD '123';"
+```
 
-🖥 Бэкенд
+### 2. Запуск бэкенда
+
+```bash
 cd backend
 mvn spring-boot:run
+```
 
 📍 http://localhost:8082
 
-📱 Мобильное приложение
+### 3. Запуск мобильного приложения
+
+```bash
 cd frontend
 npm install
 npx expo start
-
-🧪 Тесты
-cd backend
-mvn test
-
-📊 JaCoCo: target/site/jacoco/index.html
-
----
+```
 
 ## 🔌 REST API
 
