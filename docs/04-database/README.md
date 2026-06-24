@@ -7,24 +7,9 @@
 
 ## 1. ER-диаграмма (логическая модель)
 
-```
-┌──────────────────────────────────┐         ┌───────────────────────────────────┐
-│             users                │         │           bmi_records             │
-├──────────────────────────────────┤         ├───────────────────────────────────┤
-│ PK  id          BIGSERIAL        │         │ PK  id           BIGSERIAL        │
-│     email       VARCHAR(100)     │         │ FK  user_id      BIGINT NOT NULL  │
-│     password    VARCHAR(255)     │  1  *   │     weight       DOUBLE PRECISION │
-│     name        VARCHAR(100)     │─────────│     height       DOUBLE PRECISION │
-│     birth_year  INTEGER          │         │     bmi          DOUBLE PRECISION │
-│     role        VARCHAR(10)      │         │     category     VARCHAR(50)      │
-│     created_at  TIMESTAMP        │         │     measured_at  TIMESTAMP        │
-└──────────────────────────────────┘         └───────────────────────────────────┘
+![ER-диаграмма](../images/ER.png)
 
-Связь: users (1) ──── (*) bmi_records
-  • Один пользователь имеет множество записей ИМТ.
-  • ON DELETE CASCADE: при удалении пользователя удаляются все его записи.
-  • Поле updated_at отсутствует: BmiRecord содержит только measured_at (@PrePersist).
-```
+*Рисунок 1 — ER-диаграмма*
 
 ---
 
