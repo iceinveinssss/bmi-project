@@ -7,133 +7,23 @@
 
 ## 1. Диаграммы последовательности
 
-### Сценарий 1: Вход в систему (UC-02)
+### UC-03 / UC-04: Диаграмма последовательности: расчёт ИМТ
 
-```
-Пользователь  LoginScreen  authApi    apiClient   AuthController  UserServiceImpl  UserRepository  JwtUtil  authStorage
-     │             │           │           │              │               │               │           │          │
-     │──Ввод──────►│           │           │              │               │               │           │          │
-     │  email+pass │           │           │              │               │               │           │          │
-     │──Войти─────►│           │           │              │               │               │           │          │
-     │             │──login()─►│           │              │               │               │           │          │
-     │             │           │──POST /api/auth/login───►│               │               │           │          │
-     │             │           │           │              │──login(req)──►│               │           │          │
-     │             │           │           │              │               │──findByEmail()►│           │          │
-     │             │           │           │              │               │◄──User─────────│           │          │
-     │             │           │           │              │               │──matches()     │           │          │
-     │             │           │           │              │               │──generateToken()──────────►│          │
-     │             │           │           │              │               │◄──token────────────────────│          │
-     │             │           │           │              │◄─AuthResponse─│               │           │          │
-     │             │           │◄─{token,userId,name,role}│              │               │           │          │
-     │             │           │──setToken()──────────────────────────────────────────────────────────────────►│
-     │             │           │──setUser()───────────────────────────────────────────────────────────────────►│
-     │             │◄──data────│           │              │               │               │           │          │
-     │◄─MainTabs──►│           │           │              │               │               │           │          │
-```
+![Диаграмма последовательности: расчёт ИМТ](../images/UC_1.png)
 
----
+*Рисунок 1 — Use Case диаграма*
 
-### Сценарий 2: Расчёт ИМТ и сохранение (UC-03, UC-04)
+### UC-02: Диаграмма последовательности: просмотр истории
 
-```
-Пользователь  CalculatorScreen  units.js   bmiApi     BmiController  BmiServiceImpl  BmiRecord  BmiRecordRepository
-     │               │              │          │             │               │             │             │
-     │──Ввод вес,───►│              │          │             │               │             │             │
-     │   рост(любые) │              │          │             │               │             │             │
-     │──Рассчитать──►│              │          │             │               │             │             │
-     │               │──toMetricWeight()──────►│             │               │             │             │
-     │               │──toMetricHeight()──────►│             │               │             │             │
-     │               │◄─metricW, metricH───────│             │               │             │             │
-     │               │──calculate(w,h)─────────►            │               │             │             │
-     │               │              │──POST /api/bmi/calculate (Bearer)─────►│             │             │
-     │               │              │          │             │──calculateAndSave()─────────►             │
-     │               │              │          │             │               │──calculateBmi(w,h)────────►│
-     │               │              │          │             │               │◄─bmi value─────────────────│
-     │               │              │          │             │               │──getCategory(bmi)─────────►│
-     │               │              │          │             │               │◄─category──────────────────│
-     │               │              │          │             │               │──save(BmiRecord)────────────────────►│
-     │               │              │          │             │               │◄─saved record───────────────────────│
-     │               │              │          │             │◄─BmiRecord────│             │             │
-     │               │◄─{id,bmi,category}──────│             │               │             │             │
-     │◄─отображение──│              │          │             │               │             │             │
-```
+![Диаграмма последовательности: просмотр истории](../images/UC_2.png)
 
----
-
-### Сценарий 3: Оффлайн-режим — загрузка истории (UC-13)
-
-```
-Пользователь  HistoryScreen   bmiApi     apiClient     Сервер    AsyncStorage
-     │               │           │             │            │           │
-     │──Открыть──────►           │             │            │           │
-     │  History       │          │             │            │           │
-     │               │──getHistory()──────────►│            │           │
-     │               │           │──GET /api/bmi/history───►│           │
-     │               │           │             │     [недоступен]       │
-     │               │           │◄─Network Error──────────────         │
-     │               │◄─throw────│             │            │           │
-     │               │──getItem(HISTORY_CACHE_KEY)──────────────────────►│
-     │               │◄─{data, cachedAt}───────────────────────────────│
-     │◄─список (кэш)─│           │             │            │           │
-     │  + дата кэша  │           │             │            │           │
-```
-
----
+*Рисунок 2 — Use Case диаграма*
 
 ## 2. Диаграмма классов проектирования
 
-```
-┌──────────────────────────────────────────────────────────────────────┐
-│                         CONTROL LAYER                                │
-├──────────────────────┬───────────────────┬───────────────────────────┤
-│   AuthController     │   BmiController   │  UserController           │
-│ @RestController      │ @RestController   │ @RestController           │
-├──────────────────────┼───────────────────┼───────────────────────────┤
-│ +register(req)       │ +calculate(req)   │ +getMe(auth)              │
-│ +login(req)          │ +getHistory(auth) │ +updateMe(req, auth)      │
-│                      │ +getStats(auth)   │                           │
-│                      │ +getById(id,auth) │  AdminController          │
-│                      │ +update(id,req,a) │ +getAllUsers(auth)         │
-│                      │ +delete(id, auth) │                           │
-│                      │ +search(cat,auth) │                           │
-└─────────┬────────────┴────────┬──────────┴──────────┬────────────────┘
-          │ IUserService         │ IBmiService          │ IUserService
-          ▼                      ▼                      ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                         MEDIATOR LAYER (impl)                        │
-├─────────────────────────────┬────────────────────────────────────────┤
-│   UserServiceImpl           │   BmiServiceImpl                       │
-│   @Service @Transactional   │   @Service @Transactional              │
-├─────────────────────────────┼────────────────────────────────────────┤
-│ +register(req)              │ +calculateAndSave(userId, req)         │
-│   existsByEmail() check     │   → BmiRecord.calculateBmi()           │
-│   BCrypt.encode()           │   → BmiRecord.getCategory()            │
-│   JwtUtil.generateToken()   │ +getHistory(userId)                    │
-│ +login(req)                 │ +getById(id, userId)                   │
-│   findByEmail()             │   → findByIdAndUserId() (owner check)  │
-│   BCrypt.matches()          │ +updateRecord(id, userId, req)         │
-│   JwtUtil.generateToken()   │   → BmiRecord.calculateBmi/getCategory │
-│ +getUserById(id)            │ +deleteRecord(id, userId)              │
-│ +updateProfile(id, req)     │ +getStats(userId)                      │
-│ +getAllUsers()               │   → min/max/avg через Stream API       │
-│                             │ +search(userId, category)              │
-└────────┬────────────────────┴────────────────┬───────────────────────┘
-         │ UserRepository                        │ BmiRecordRepository
-         ▼                                       ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                         FOUNDATION LAYER                             │
-├──────────────────────────────┬───────────────────────────────────────┤
-│   UserRepository             │   BmiRecordRepository                 │
-│   JpaRepository<User,Long>   │   JpaRepository<BmiRecord,Long>       │
-├──────────────────────────────┼───────────────────────────────────────┤
-│ +findByEmail(email)          │ +findByUserIdOrderByMeasuredAtDesc()  │
-│ +existsByEmail(email)        │ +findByIdAndUserId(id, userId)        │
-│ (inherited CRUD)             │ +findByUserIdAndCategory...()         │
-│                              │ +countByUserId(userId)                │
-└──────────────────────────────┴───────────────────────────────────────┘
-```
+![Диаграмма классов проектирования](../images/UC_3.png)
 
----
+*Рисунок 3 — Диаграмма классов проектирования*
 
 ## 3. Применение паттернов проектирования (GoF)
 
